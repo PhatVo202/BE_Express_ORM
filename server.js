@@ -1,22 +1,16 @@
 import express from "express";
 import cors from "cors";
+import { rootRouter } from "./src/routers/root.router";
+import logApi from "./src/common/morgan/init.morgan";
 const app = express();
 const port = 3069;
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: ["https://google.com", "http://localhost:3000"],
-  })
-);
+//morgan with chalk
+app.use(logApi);
+app.use(cors({ origin: ["http://localhost:3000"] }));
 
-app.get("/", (req, res) => {
-  res.send("Hello Cu bi!");
-});
-
-app.get("/hello", (req, res, next) => {
-  res.status(200).json("Upload thanh cong");
-});
+app.use(rootRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
