@@ -22,9 +22,9 @@ export const authController = {
     }
   },
 
-  getInfor: async function (req, res, next) {
+  refreshToken: async function (req, res, next) {
     try {
-      const result = await authService.getInfor(req);
+      const result = await authService.refreshToken(req);
       const response = responseSuccess(result);
       res.status(response.statusCode).json(response);
     } catch (err) {
