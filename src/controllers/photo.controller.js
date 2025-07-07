@@ -5,7 +5,10 @@ export const photoController = {
   findAll: async function (req, res, next) {
     try {
       const result = await photoService.findAll(req);
-      const response = responseSuccess(result);
+      const response = responseSuccess(
+        result,
+        "Lấy tất cả hình ảnh thành công"
+      );
       res.status(response.statusCode).json(response);
     } catch (err) {
       next(err);
@@ -17,7 +20,7 @@ export const photoController = {
       const result = await photoService.findOne(req);
       const response = responseSuccess(
         result,
-        `Get photo #${req.params.id} haha`
+        "Tìm kiếm hình ảnh theo id thành công"
       );
       res.status(response.statusCode).json(response);
     } catch (err) {
@@ -25,12 +28,12 @@ export const photoController = {
     }
   },
 
-  update: async function (req, res, next) {
+  createdPhoto: async function (req, res, next) {
     try {
-      const result = await photoService.update(req);
+      const result = await photoService.createdPhoto(req);
       const response = responseSuccess(
         result,
-        `Update photo #${req.params.id} successfully`
+        "Lấy danh sách ảnh đã tạo thành công"
       );
       res.status(response.statusCode).json(response);
     } catch (err) {
@@ -38,13 +41,22 @@ export const photoController = {
     }
   },
 
-  remove: async function (req, res, next) {
+  getSavedPhoto: async function (req, res, next) {
     try {
-      const result = await photoService.remove(req);
+      const result = await photoService.getSavedPhoto(req);
       const response = responseSuccess(
         result,
-        `Remove photo #${req.params.id} successfully`
+        "Lấy danh sách ảnh đã lưu thành công"
       );
+      res.status(response.statusCode).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+  deletedPhoto: async function (req, res, next) {
+    try {
+      const result = await photoService.deletedPhoto(req);
+      const response = responseSuccess(result, "Xoá ảnh thành công");
       res.status(response.statusCode).json(response);
     } catch (err) {
       next(err);

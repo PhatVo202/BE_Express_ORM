@@ -13,3 +13,10 @@ export class UnauthorizedException extends Error {
     this.code = statusCodes.UNAUTHORIZED;
   }
 }
+
+export class ForbiddenException extends Error {
+  constructor(message = "ForbiddenException") {
+    super(message);
+    this.code = statusCodes.FORBIDDEN;
+  }
+}

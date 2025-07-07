@@ -1,3 +1,7 @@
+import {
+  BadrequestException,
+  ForbiddenException,
+} from "../common/helpers/exception.helper";
 import { prisma } from "../common/prisma/init.prisma";
 
 export const photoService = {
@@ -50,15 +54,74 @@ export const photoService = {
       where: {
         hinh_id: Number(id),
       },
+      include: {
+        nguoi_dung: {
+          omit: {
+            mat_khau: true,
+          },
+        },
+      },
     });
+    if (!photoDetail) {
+      throw new BadrequestException("Không tìm thấy hình ảnh");
+    }
     return photoDetail;
   },
 
-  update: async function (req) {
-    return `This action updates a id: ${req.params.id} photo`;
+  createdPhoto: async function (req) {
+    const userId = req.user.nguoi_dung_id;
+
+    const data = await prisma.hinh_anh.findMany({
+      where: {
+        nguoi_dung_id: +userId,
+      },
+    });
+    return data;
   },
 
-  remove: async function (req) {
-    return `This action removes a id: ${req.params.id} photo`;
+  getSavedPhoto: async function (req) {
+    const userId = req.user.nguoi_dung_id;
+    console.log({ id: userId });
+    const savedPhotos = await prisma.luu_anh.findMany({
+      where: {
+        nguoi_dung_id: +userId,
+      },
+      include: {
+        hinh_anh: true,
+      },
+    });
+
+    return savedPhotos;
+  },
+  deletedPhoto: async function (req) {
+    const userId = req.user.nguoi_dung_id;
+    const photoId = req.params.id;
+    const photo = await prisma.hinh_anh.findUnique({
+      where: {
+        hinh_id: +photoId,
+      },
+    });
+
+    if (!photo) {
+      throw new BadrequestException("Ảnh không tồn tại");
+    }
+
+    if (photo.nguoi_dung_id !== userId) {
+      throw new ForbiddenException("Bạn không có quyền xoá ảnh này!");
+    }
+
+    await prisma.luu_anh.deleteMany({
+      where: {
+        hinh_id: +photoId,
+      },
+    });
+
+    await prisma.hinh_anh.delete({
+      where: {
+        hinh_id: +photoId,
+      },
+    });
+
+    return "Xóa ảnh thành công";
   },
 };
