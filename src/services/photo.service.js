@@ -68,7 +68,7 @@ export const photoService = {
     return photoDetail;
   },
 
-  createdPhoto: async function (req) {
+  getCreatedPhoto: async function (req) {
     const userId = req.user.nguoi_dung_id;
 
     const data = await prisma.hinh_anh.findMany({
@@ -93,6 +93,7 @@ export const photoService = {
 
     return savedPhotos;
   },
+
   deletedPhoto: async function (req) {
     const userId = req.user.nguoi_dung_id;
     const photoId = req.params.id;

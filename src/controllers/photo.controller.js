@@ -28,7 +28,7 @@ export const photoController = {
     }
   },
 
-  createdPhoto: async function (req, res, next) {
+  getCreatedPhoto: async function (req, res, next) {
     try {
       const result = await photoService.createdPhoto(req);
       const response = responseSuccess(
@@ -53,6 +53,7 @@ export const photoController = {
       next(err);
     }
   },
+
   deletedPhoto: async function (req, res, next) {
     try {
       const result = await photoService.deletedPhoto(req);

@@ -4,6 +4,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "../common/swagger/init.swagger";
 import photoRouter from "./photo.router";
 import userRouter from "./user.router";
+import commentRouter from "./comment.router";
 
 export const rootRouter = express.Router();
 
@@ -18,3 +19,4 @@ rootRouter.get(
 rootRouter.use("/auth", authRouter);
 rootRouter.use("/photos", photoRouter);
 rootRouter.use("/user", userRouter);
+rootRouter.use("/comments", commentRouter);

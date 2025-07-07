@@ -7,7 +7,7 @@ const photoRouter = express.Router();
 photoRouter.get("/", photoController.findAll);
 photoRouter.get("/:id", photoController.findOne);
 
-photoRouter.get("/created/user", protect, photoController.createdPhoto);
+photoRouter.get("/created/user", protect, photoController.getCreatedPhoto);
 photoRouter.get("/saved/user", protect, photoController.getSavedPhoto);
 
 photoRouter.delete("/deleted-photo/:id", protect, photoController.deletedPhoto);
