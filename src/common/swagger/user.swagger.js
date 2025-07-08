@@ -125,6 +125,88 @@ const userSwagger = {
       },
     },
   },
+
+  "/user/upload-avatar": {
+    post: {
+      tags: ["User"],
+      summary: "Upload ảnh đại diện (avatar)",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+      description:
+        "Cập nhật ảnh đại diện người dùng. Cần access token và gửi file ảnh.",
+      requestBody: {
+        required: true,
+        content: {
+          "multipart/form-data": {
+            schema: {
+              type: "object",
+              properties: {
+                file: {
+                  type: "string",
+                  format: "binary",
+                  description: "Ảnh đại diện mới",
+                },
+              },
+              required: ["file"],
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: "Cập nhật ảnh đại diện thành công",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  folder: {
+                    type: "string",
+                    example: "images",
+                  },
+                  filename: {
+                    type: "string",
+                    example: "avatar123",
+                  },
+                  imgUrl: {
+                    type: "string",
+                    example:
+                      "https://res.cloudinary.com/your_cloud/image/upload/v123456789/images/avatar123.jpg",
+                  },
+                },
+              },
+            },
+          },
+        },
+        400: {
+          description: "Không tìm thấy file hoặc upload thất bại",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  statusCode: {
+                    type: "integer",
+                    example: 400,
+                  },
+                  message: {
+                    type: "string",
+                    example: "Chưa tìm thấy file",
+                  },
+                },
+              },
+            },
+          },
+        },
+        401: {
+          description: "Không có token hoặc token không hợp lệ",
+        },
+      },
+    },
+  },
 };
 
 export default userSwagger;

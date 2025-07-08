@@ -30,7 +30,7 @@ export const photoController = {
 
   getCreatedPhoto: async function (req, res, next) {
     try {
-      const result = await photoService.createdPhoto(req);
+      const result = await photoService.getCreatedPhoto(req);
       const response = responseSuccess(
         result,
         "Lấy danh sách ảnh đã tạo thành công"
@@ -78,6 +78,16 @@ export const photoController = {
     try {
       const result = await photoService.createPhoto(req);
       const response = responseSuccess(result, "Tạo ảnh thành công");
+      res.status(response.statusCode).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  cancelSavePhoto: async function (req, res, next) {
+    try {
+      const result = await photoService.cancelSavePhoto(req);
+      const response = responseSuccess(result, "Huỷ lưu ảnh thành công");
       res.status(response.statusCode).json(response);
     } catch (err) {
       next(err);

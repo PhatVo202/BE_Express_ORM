@@ -186,4 +186,18 @@ export const photoService = {
       throw new BadrequestException(error.message);
     }
   },
+
+  cancelSavePhoto: async function (req) {
+    const userId = req.user.nguoi_dung_id;
+    const { id } = req.params;
+    await prisma.luu_anh.delete({
+      where: {
+        nguoi_dung_id_hinh_id: {
+          nguoi_dung_id: +userId,
+          hinh_id: +id,
+        },
+      },
+    });
+    return "Huỷ lưu ảnh thành công ";
+  },
 };

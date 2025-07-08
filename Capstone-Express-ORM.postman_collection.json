@@ -291,6 +291,32 @@
 						"url": "{{domain}}/photos/created-photo"
 					},
 					"response": []
+				},
+				{
+					"name": "Unsave",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTc0ODUyODM5OSwiZXhwIjoxNzQ4NjE0Nzk5fQ.5m0NKINaspUuvRwkgXRbrJeeUAxyWRRPkf-76gl9ZOs",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{domain}}/photos/unsave/1"
+					},
+					"response": []
 				}
 			]
 		},
