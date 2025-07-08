@@ -25,7 +25,7 @@ const photoSwagger = {
         {
           name: "filters",
           in: "query",
-          description: "JSON",
+          description: "JSON. vd:{`ten_hinh`:`bien`}",
           required: false,
           type: "string",
         },

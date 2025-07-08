@@ -56,6 +56,7 @@ export const authService = {
 
     return token;
   },
+
   refreshToken: async function (req) {
     const { accessToken, refreshToken } = req.body;
     const decodeRefreshToken = tokenService.verifyrefreshToken(refreshToken);

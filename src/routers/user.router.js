@@ -6,7 +6,7 @@ import uploadCloud from "../common/multer/cloud.multer";
 const userRouter = express.Router();
 
 userRouter.get("/get-info", protect, userController.getInfo);
-userRouter.put("/", protect, userController.update);
+userRouter.put("/update-user", protect, userController.update);
 userRouter.post(
   "/upload-avatar",
   protect,

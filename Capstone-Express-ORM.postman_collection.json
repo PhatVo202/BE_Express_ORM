@@ -1,0 +1,452 @@
+{
+	"info": {
+		"_postman_id": "7083acac-fa86-45ef-a3b0-1e0d479be00d",
+		"name": "Capstone-Express-ORM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30655891"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"phatvo1@gmail.com\",\n    \"mat_khau\": \"12345678\",\n    \"ho_ten\": \"Phat Kun\",\n    \"tuoi\": 22\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{domain}}/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const data =pm.response.json()",
+									"pm.globals.set(\"accessToken\",data.data.accessToken)",
+									"pm.globals.set(\"refreshToken\",data.data.refreshToken)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"phatvo1@gmail.com\",\n    \"mat_khau\": \"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{domain}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "RefreshToken",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const data =pm.response.json()",
+									"pm.globals.set(\"accessToken\",data.data.accessToken)",
+									"pm.globals.set(\"refreshToken\",data.data.refreshToken)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accessToken\":\"{{accessToken}}\",\n    \"refreshToken\": \"{{refreshToken}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{domain}}/auth/refresh-token"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Photo",
+			"item": [
+				{
+					"name": "findAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{domain}}/photos/?page=1&pageSize=3&filters=%7B%22mo_ta%22%3A%22bi%E1%BB%83n%22%7D",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"photos",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "3"
+								},
+								{
+									"key": "filters",
+									"value": "%7B%22mo_ta%22%3A%22bi%E1%BB%83n%22%7D"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find photo by ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-mock-response-id",
+								"value": "1",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{domain}}/photos/1",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"photos",
+								"1"
+							],
+							"query": [
+								{
+									"key": "filters",
+									"value": "%7B%22mo_ta%22%3A%22bi%E1%BB%83n%22%7D",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list photo saved",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{domain}}/photos/saved/user"
+					},
+					"response": []
+				},
+				{
+					"name": "Get list photo created",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accessToken\":\"{{accessToken}}\",\n    \"refreshToken\": \"{{refreshToken}}\"\n}"
+						},
+						"url": "{{domain}}/photos/created/user"
+					},
+					"response": []
+				},
+				{
+					"name": "Deleted created photo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accessToken\":\"{{accessToken}}\",\n    \"refreshToken\": \"{{refreshToken}}\"\n}"
+						},
+						"url": "{{domain}}/photos/deleted-photo/3"
+					},
+					"response": []
+				},
+				{
+					"name": "is-save",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{domain}}/photos/is-save/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Create-Photo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "anh",
+									"type": "file",
+									"src": "/Users/mac/Documents/img.png"
+								},
+								{
+									"key": "ten_hinh",
+									"value": "Ảnh đẹp",
+									"type": "text"
+								},
+								{
+									"key": "mo_ta",
+									"value": "ảnh về thiên nhiên",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{domain}}/photos/created-photo"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTc0ODUyODM5OSwiZXhwIjoxNzQ4NjE0Nzk5fQ.5m0NKINaspUuvRwkgXRbrJeeUAxyWRRPkf-76gl9ZOs",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mat_khau\": \"12345678\",\n    \"tuoi\":\"23\",\n    \"ho_ten\":\"Phat kun\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{domain}}/user/update-user"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Avatar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTc0ODUyODM5OSwiZXhwIjoxNzQ4NjE0Nzk5fQ.5m0NKINaspUuvRwkgXRbrJeeUAxyWRRPkf-76gl9ZOs",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/Users/mac/Desktop/Ảnh màn hình 2025-05-29 lúc 01.08.58.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{domain}}/user/upload-avatar",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"user",
+								"upload-avatar"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetInfo",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTc0ODUyODM5OSwiZXhwIjoxNzQ4NjE0Nzk5fQ.5m0NKINaspUuvRwkgXRbrJeeUAxyWRRPkf-76gl9ZOs",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{domain}}/user/get-info"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Get comment by id img",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{domain}}/comments/get-comment/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Comment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"noi_dung\": \"Eh cái này hay nha bro\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{domain}}/comments/create-comment/2"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

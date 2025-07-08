@@ -1,8 +1,7 @@
-import { resolve } from "extensionless";
 import { BadrequestException } from "../common/helpers/exception.helper";
 import { prisma } from "../common/prisma/init.prisma";
 import bcrypt from "bcrypt";
-import cloudinary from "../common/init.cloudinary";
+import cloudinary from "../common/cloudinary/init.cloudinary";
 import path from "path";
 import fs from "fs";
 
@@ -25,6 +24,7 @@ export const userService = {
     });
     return updateUser;
   },
+
   uploadAvatar: async (req) => {
     console.log({ file: req.file });
     const file = req.file;
@@ -71,6 +71,7 @@ export const userService = {
       imgUrl: upload.secure_url,
     };
   },
+
   getInfo: async function (req) {
     delete req.user.mat_khau;
     return req.user;

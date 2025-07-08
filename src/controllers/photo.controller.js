@@ -63,4 +63,24 @@ export const photoController = {
       next(err);
     }
   },
+
+  isSave: async function (req, res, next) {
+    try {
+      const result = await photoService.isSave(req);
+      const response = responseSuccess(result);
+      res.status(response.statusCode).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  createPhoto: async function (req, res, next) {
+    try {
+      const result = await photoService.createPhoto(req);
+      const response = responseSuccess(result, "Tạo ảnh thành công");
+      res.status(response.statusCode).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };

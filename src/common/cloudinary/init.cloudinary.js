@@ -3,7 +3,7 @@ import {
   CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET,
   CLOUDINARY_NAME,
-} from "./constant/app.constant";
+} from "../constant/app.constant";
 
 cloudinary.config({
   cloud_name: CLOUDINARY_NAME,

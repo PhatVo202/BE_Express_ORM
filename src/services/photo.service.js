@@ -2,6 +2,7 @@ import {
   BadrequestException,
   ForbiddenException,
 } from "../common/helpers/exception.helper";
+import cloudinary from "../common/cloudinary/init.cloudinary";
 import { prisma } from "../common/prisma/init.prisma";
 
 export const photoService = {
@@ -15,6 +16,10 @@ export const photoService = {
     filters = JSON.parse(filters || `{}`);
 
     Object.entries(filters).forEach(([key, value], index, arr) => {
+      console.log({
+        key: key,
+        value: value,
+      });
       if (value === "" || value === null || value === undefined) {
         delete filters[key];
         return;
@@ -124,5 +129,61 @@ export const photoService = {
     });
 
     return "Xóa ảnh thành công";
+  },
+
+  isSave: async function (req) {
+    const userId = req.user.nguoi_dung_id;
+    const photoId = req.params.id;
+    console.log({
+      userId: userId,
+      photoId: photoId,
+    });
+
+    const saved = await prisma.luu_anh.findUnique({
+      where: {
+        nguoi_dung_id_hinh_id: {
+          nguoi_dung_id: +userId,
+          hinh_id: +photoId,
+        },
+      },
+    });
+
+    if (saved) return true;
+    return false;
+  },
+
+  createPhoto: async function (req) {
+    const { mo_ta, ten_hinh } = req.body;
+    const file = req.file;
+
+    if (!file) {
+      throw new BadrequestException("Chưa tìm thấy file");
+    }
+
+    const uploadPhoto = await new Promise((resolve) => {
+      cloudinary.uploader
+        .upload_stream({ folder: "img" }, (error, upload) => {
+          if (error) return rejects(error);
+          resolve(upload);
+        })
+        .end(file.buffer);
+    });
+
+    const user = req.user;
+
+    try {
+      const newPhoto = await prisma.hinh_anh.create({
+        data: {
+          duong_dan: uploadPhoto.secure_url,
+          nguoi_dung_id: user.nguoi_dung_id,
+          mo_ta: mo_ta,
+          ten_hinh: ten_hinh,
+        },
+      });
+
+      return newPhoto;
+    } catch (error) {
+      throw new BadrequestException(error.message);
+    }
   },
 };

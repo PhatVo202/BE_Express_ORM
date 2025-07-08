@@ -1,5 +1,6 @@
 import authSwagger from "./auth.swagger";
 import photoSwagger from "./photo.swagger";
+import userSwagger from "./user.swagger";
 
 const swaggerDocument = {
   openapi: "3.1.1",
@@ -28,8 +29,17 @@ const swaggerDocument = {
   },
   paths: {
     ...authSwagger,
+    ...userSwagger,
     ...photoSwagger,
   },
 };
 
 export default swaggerDocument;
+
+// "data": {
+//         "nguoi_dung_id": 4,
+//         "email": "phatvo6@gmail.com",
+//         "ho_ten": "Phat Ne",
+//         "tuoi": 22,
+//         "anh_dai_dien": null
+//     },
